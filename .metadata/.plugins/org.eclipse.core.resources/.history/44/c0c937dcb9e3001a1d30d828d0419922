@@ -1,0 +1,118 @@
+package com.ddt.cinefsoft.repository;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import com.ddt.cinefsoft.model.Auditorium;
+import com.ddt.cinefsoft.model.Film;
+
+@Repository
+public class FilmRepository {
+	
+	private Connection connectionDatabase() {
+		String url = "jdbc:sqlserver://localhost;databaseName=CinemaProjectFSoft";
+		String userDB = "sa";
+		String passDB = "Ducthanh@313";
+
+		Connection con = null;
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			con = DriverManager.getConnection(url, userDB, passDB);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return con;
+	}
+
+	public Film getFilmById(int id) {
+		Film film = null;
+
+		Connection con = this.connectionDatabase();
+		String sql = "select mov_id, mov_title, mov_thumb, mov_banner, mov_imdb, mov_duration, mov_trailer\n"
+				+ "from Movie\n" + "where mov_id =" + id;
+		try {
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+
+			while (rs.next()) {
+//				int id = rs.getInt(1);
+				String title = rs.getString(2);
+				String thumb = rs.getString(3);
+				String banner = rs.getString(4);
+				String imdb = rs.getString(5);
+				int duration = rs.getInt(6);
+				String trailler = rs.getString(7);
+
+				film = new Film(id, title, thumb, banner, imdb, duration, trailler);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return film;
+	}
+
+	public List<Date> getDate(int id) {
+		List<Date> listDate = new ArrayList<Date>();
+
+		Connection con = this.connectionDatabase();
+		String sql = "select distinct Screening.scr_date\n" + "from Screening\n" + "where mov_id = " + id;
+		try {
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+
+			while (rs.next()) {
+				Date date = rs.getDate("scr_date");
+
+				listDate.add(date);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return listDate;
+	}
+
+	public List<Auditorium> getAuditorium(int id, String date) {
+		List<Auditorium> listAudi = new ArrayList<Auditorium>();
+
+		Connection con = this.connectionDatabase();
+		String sql = "select distinct Auditorium.audi_name\n" + "from Auditorium\n" + "inner join Screening\n"
+				+ "    on Auditorium.audi_id = Screening.audi_id\n" + "where mov_id = " + id + " and scr_date = '"
+				+ date + "'";
+		try {
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+
+			while (rs.next()) {
+				String name = rs.getString("audi_name");
+
+				listAudi.add(new Auditorium(id, name));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return listAudi;
+	}
+
+	public List<Time> getTime(int id, String date, String audi) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+
+}

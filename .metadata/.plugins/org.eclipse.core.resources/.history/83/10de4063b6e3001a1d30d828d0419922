@@ -1,0 +1,28 @@
+package com.ddt.cinefsoft.api;
+
+import javax.websocket.server.PathParam;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ddt.cinefsoft.model.Film;
+import com.ddt.cinefsoft.service.FilmService;
+
+@RestController
+@CrossOrigin(origins = "http://127.0.0.1:5500")
+@RequestMapping("film")
+public class FilmController {
+	
+	@Autowired
+	private FilmService filmService;
+
+	@GetMapping("{id}")
+	public Film getFilmById(@PathVariable int id) {
+		return filmService.getFilmById(id);
+	}
+	
+}

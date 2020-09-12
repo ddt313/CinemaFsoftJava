@@ -1,0 +1,27 @@
+package com.ddt.cinefsoft.service;
+
+import java.sql.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ddt.cinefsoft.model.Film;
+import com.ddt.cinefsoft.repository.FilmRepository;
+
+@Service
+public class FilmService {
+	
+	@Autowired
+	private FilmRepository filmRepository;
+
+	public Film getFilmById(int id) {
+		return filmRepository.getFilmById(id);
+	}
+
+	public List<Date> getDate(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,19 @@
+package com.ddt.cinefsoft.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ddt.cinefsoft.model.Film;
+import com.ddt.cinefsoft.repository.FilmRepository;
+
+@Service
+public class FilmService {
+	
+	@Autowired
+	private FilmRepository filmRepository;
+
+	public Film getFilmById(String id) {
+		return filmRepository.getFilmById(id);
+	}
+
+}

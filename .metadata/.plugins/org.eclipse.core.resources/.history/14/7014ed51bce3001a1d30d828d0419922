@@ -1,0 +1,5 @@
+package com.ddt.cinefsoft.repository;
+
+public class FoodyRepository {
+
+}

@@ -1,0 +1,15 @@
+package com.ddt.cinefsoft.service;
+
+import org.springframework.stereotype.Service;
+
+import com.ddt.cinefsoft.model.Film;
+
+@Service
+public class FilmService {
+
+	public Film getFilmById(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
